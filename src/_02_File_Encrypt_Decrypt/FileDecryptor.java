@@ -1,5 +1,10 @@
 package _02_File_Encrypt_Decrypt;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
 public class FileDecryptor {
@@ -24,14 +29,42 @@ public class FileDecryptor {
 	 * the message, then display it to the user in a JOptionPane.
 	 */
 	public static void main(String[] args) {
-		String message = JOptionPane.showInputDialog("give me a message");
-		String encyrpted = "";
-		for (int i = 0; i < message.length(); i++) {
-			if((message.charAt(i)+4)>118) {
-			//	encyrpted=(char)message.charAt(i)-22;
+		String decrypt="";
+		String encyrpted="";
+		String key = JOptionPane.showInputDialog("give me a key");
+		int keyValue=Integer.parseInt(key);
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("src/_02_File_Encrypt_Decrypt/secretMessage.txt"));
+			
+			String line = br.readLine();
+			while(line != null){
+				System.out.println(line);
+				decrypt=decrypt+line;
+				line = br.readLine();
+			}
+			
+			br.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (int i = 0; i < decrypt.length(); i++) {
+			if((decrypt.charAt(i)-keyValue)>122) {
+				encyrpted=encyrpted+(char)(decrypt.charAt(i)+(26-keyValue));
+			}
+			else if(decrypt.charAt(i)-keyValue>90&&decrypt.charAt(i)-keyValue<97) {
+				encyrpted=encyrpted+(char)(decrypt.charAt(i)+(26-keyValue));
+
+			}
+			else if(decrypt.charAt(i)==' ') {
+				encyrpted=encyrpted+" ";
+
 			}
 			else {
-			encyrpted =encyrpted+(char)(message.charAt(i)+4);
+			encyrpted =encyrpted+(char)(decrypt.charAt(i)-keyValue);
 			}
 		}
 		System.out.println(encyrpted); 

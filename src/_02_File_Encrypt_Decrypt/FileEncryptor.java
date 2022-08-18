@@ -1,5 +1,8 @@
 package _02_File_Encrypt_Decrypt;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
 public class FileEncryptor {
@@ -24,13 +27,15 @@ public class FileEncryptor {
 	 */
 	public static void main(String[] args) {
 		String message = JOptionPane.showInputDialog("give me a message");
+		String key = JOptionPane.showInputDialog("give me a key");
+		int keyValue=Integer.parseInt(key);
 		String encyrpted = "";
 		for (int i = 0; i < message.length(); i++) {
-			if((message.charAt(i)+4)>122) {
-				encyrpted=encyrpted+(char)(message.charAt(i)-22);
+			if((message.charAt(i)+keyValue)>122) {
+				encyrpted=encyrpted+(char)(message.charAt(i)-(26-keyValue));
 			}
-			else if(message.charAt(i)+4>90&&message.charAt(i)+4<97) {
-				encyrpted=encyrpted+(char)(message.charAt(i)-22);
+			else if(message.charAt(i)+keyValue>90&&message.charAt(i)+keyValue<97) {
+				encyrpted=encyrpted+(char)(message.charAt(i)-(26-keyValue));
 
 			}
 			else if(message.charAt(i)==' ') {
@@ -38,9 +43,17 @@ public class FileEncryptor {
 
 			}
 			else {
-			encyrpted =encyrpted+(char)(message.charAt(i)+4);
+			encyrpted =encyrpted+(char)(message.charAt(i)+keyValue);
 			}
 		}
 		System.out.println(encyrpted); 
+		try { FileWriter fw = new FileWriter("src/_02_File_Encrypt_Decrypt/secretMessage.txt") ;
+		fw.write(encyrpted);
+		fw.close();
+	}	
+ catch (IOException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
 	}
 }
