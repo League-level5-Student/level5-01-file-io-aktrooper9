@@ -2,6 +2,9 @@ package _03_To_Do_List;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -101,6 +104,25 @@ public class ToDoList implements ActionListener {
 				f.printStackTrace();
 			}
 		}
+		else if(e.getSource()==load) {
+			String tasklist="";
+			try {
+			BufferedReader br = new BufferedReader(new FileReader("src/_03_To_Do_List/toDoList.txt"));
+			String line = br.readLine();
+			while(line != null){
+				System.out.println(line);
+				tasklist=tasklist+line;
+					line = br.readLine();
+			br.close();
+			}
+			}
+			catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, tasklist);
+		}
 		
 	}
 }
+
